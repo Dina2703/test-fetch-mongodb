@@ -15,7 +15,11 @@ export default function about({ movies }) {
   );
 }
 
-export async function getServerSideProps(ctx) {
+export async function getServerSideProps({ req, res }) {
+  res.setHeader(
+    "Cache-Control",
+    "public, s-maxage=10, stale-while-revalidate=59"
+  );
   const client = await clientPromise;
   const db = client.db("sample_mflix");
   const data = await db
